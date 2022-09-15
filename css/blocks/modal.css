@@ -55,12 +55,21 @@
     align-items: center;
 }
 
-.modal__desr {
+.modal__num {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal__descr {
     font-weight: 600;
     font-size: 10px;
     line-height: 12px;
     text-transform: uppercase;
     color: #C5C5C5;
+}
+
+.modal__descr_number {
+    padding-left: 3px;
 }
 
 .modal__line {
