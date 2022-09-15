@@ -1,0 +1,102 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table__header {
+    height: 45px;  
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #6E6893;
+}
+
+.table__row {
+    height: 60px;
+    background: #fff;
+    border-top: 1px solid #D9D5EC;
+}
+
+.table__row_header {
+    height: 45px;
+    background: #F4F2FF;
+}
+
+.table__title {
+    padding-left: 15px;
+    text-align: start;
+}
+
+.table__title_id {
+    width: 78px;
+}
+
+.table__title_name {
+    width: 305px;
+}
+
+.table__title_category {
+    width: 174px;
+}
+
+.table__title_units {
+    width: 69px;
+}
+
+.table__title_number {
+    width: 91px;
+}
+
+.table__title_price {
+    width: 94px;
+    text-align: end;
+}
+
+.table__title_total {
+    width: 94px;
+    text-align: end;
+}
+
+.table__cell {
+    padding-left: 15px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #25213B;
+}
+
+.table__cell_units {
+    color: #6E6893;
+    text-align: center;
+}
+
+.table__cell_num {
+    text-align: center;
+}
+
+
+.table__cell_price, .table__cell_total {
+    text-align: end;
+}
+
+.table__title_btn {
+    padding-left: 50px;
+}
+
+.table__cell_btns {
+    width: 165px;
+    height: 60px;
+    padding-left: 50px;
+    padding-right: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 840px) {
+    .table {
+        min-width: 762px;
+    }
+}
