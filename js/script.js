@@ -29,12 +29,6 @@ overlayModal.addEventListener('click', () => {
     overlayModal.classList.remove('active');
 });
 
-console.log('modalTitle: ', modalTitle);
-console.log('btnModalEditId: ', btnModalEditId);
-console.log('modalId: ', modalId);
-console.log('modalForm: ', modalForm);
-console.log('modalCheckboxBefore: ', modalCheckboxBefore);
-console.log('modalInputDiscount: ', modalInputDiscount);
-console.log('modalTotalSum: ', modalTotalSum);
+
 
 
