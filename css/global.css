@@ -53,3 +53,7 @@ h1, h2, h3, p, figure, fieldset {
     padding: 0 30px;
     margin: 0 auto;
 }
+
+.delete {
+    display: none;
+}
