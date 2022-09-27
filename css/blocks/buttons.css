@@ -104,6 +104,12 @@
     width: 200px;
 }
 
+.btn__reset {
+    width: 100px;
+    background: rgb(187, 67, 67);
+    border: 2px solid rgb(187, 67, 67);
+}
+
 .btn__submit_srm {
     width: 181px;
     float: right;

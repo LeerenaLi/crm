@@ -12,7 +12,7 @@
 
     <title>SRM Table</title>
 
-    <script defer src="js/script.js"></script>
+    <!-- <script defer src="js/script.js"></script> -->
     <script defer src="js/rows.js"></script>
 </head>
 <body>
@@ -31,7 +31,8 @@
                 <div class="modal__id">
                     <div class="modal__num">
                         <p class="modal__descr">id: </p>
-                        <p class="modal__descr modal__descr_number">201910241</p>
+                        <span class="modal__descr modal__descr_number vendor-code__id" name="id"></span>
+                        <!-- <p class="modal__descr modal__descr_number" name="id">201910241</p> -->
                     </div>
                     
                     <button class="modal__edit edit">
@@ -56,37 +57,37 @@
                 <h3 class="modal__subtitle">Что-то пошло не так</h3>
             </div>
 
-            <form action="#" class="form" id="modal-form" method="post" target="_blank">
+            <form class="form" id="modal-form">
                 <fieldset class="fieldset">
                     <fieldset class="form__fieldset">
                         <fieldset class="form__wrapper form__wrapper_name">
                             <label for="name" class="form__label form__label_name">Наименование</label>
-                            <input type="text" id="name" class="form__input">
+                            <input type="text" id="name" class="form__input" name="title" required>
                         </fieldset>
                         <fieldset class="form__wrapper form__wrapper_category">
                             <label for="category" class="form__label">Категория</label>
-                            <input type="text" class="form__input" id="category">
+                            <input type="text" class="form__input" id="category" name="category" required>
                         </fieldset>
                         <fieldset class="form__wrapper form__wrapper_units">
                             <label for="units" class="form__label">Единицы измерения</label>
-                            <input type="text" class="form__input" id="units">
+                            <input type="text" class="form__input" id="units" name="units" required>
                         </fieldset>
                         <fieldset class="form__wrapper form__wrapper_sale">
                             <label for="sale" class="form__label checkbox">Дисконт</label>
                             <input type="checkbox" class="checkbox__input" id="sale">
-                            <input type="number" class="form__input form__input_sale" min="1" max="15">
+                            <input type="number" class="form__input form__input_sale" id="sale-in" min="1" max="15">
                         </fieldset>
                         <fieldset class="form__wrapper form__wrapper_spec">
                             <label for="spec" class="form__label">Описание</label>
-                            <textarea class="form__input form__input_spec" id="spec" name="spec"></textarea>
+                            <textarea class="form__input form__input_spec" id="spec"></textarea>
                         </fieldset>
                         <fieldset class="form__wrapper form__wrapper_number">
                             <label for="number" class="form__label">количество</label>
-                            <input type="number" class="form__input" id="number" min="1" max="100">
+                            <input type="number" class="form__input" min="1" max="100" id="count" name="count" required>
                         </fieldset>
                         <fieldset class="form__wrapper form__wrapper_price">
                             <label for="price" class="form__label">Цена</label>
-                            <input type="number" class="form__input form__input_price" id="price">
+                            <input type="number" class="form__input form__input_price" id="price" name="price" required>
                         </fieldset>
     
                         <p class="form__warning">Изображение не должно 
@@ -110,10 +111,11 @@
                 <div class="form__submit">
                     <div class="form__total">
                         <p class="form__descr">Итоговая стоимость: </p>
-                        <span class="form__span form__span_currency">$ </span>
-                        <span class="form__span form__span_sum">900.00</span>
+                        <span class="form__span form__span_currency">p. </span>
+                        <span class="form__span form__span_sum"></span>
                     </div>
                     <button type="submit" class="btn btn__submit">Добавить товар</button>
+                    <button type="reset" class="btn btn__reset">Отмена</button>
                 </div>
             </form>
         </div>
@@ -128,8 +130,8 @@
                 <h1 class="srm__title">CRM</h1>
                 <div class="srm__total">
                     <p class="srm__descr">Итоговая стоимость:</p>
-                    <span class="srm__span srm__span_currency">$ </span>
-                    <span class="srm__span srm__span_sum">900.00</span>
+                    <span class="srm__span srm__span_currency">р. </span>
+                    <span class="srm__span srm__span_sum"></span>
                 </div>
             </div>
 

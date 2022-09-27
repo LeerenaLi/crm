@@ -203,7 +203,6 @@
 }
 
 .form__submit {
-    padding: 0 28px;
     display: flex;
     justify-content: space-between;
 }
