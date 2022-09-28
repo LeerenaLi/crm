@@ -59,12 +59,9 @@ const overlayModal = document.querySelector('.modal__overlay');
 
 const modalTitle = document.querySelector('.modal__title');
 const btnModalEditId = document.querySelector('.modal__edit');
-const modalId = document.querySelector('.modal__descr_number');
 const form = document.querySelector('#modal-form');
 
 const modalCheckbox = document.querySelector('.checkbox__input');
-const modalCheckboxBefore = window.getComputedStyle(modalCheckbox, ':before');
-const modalCheckboxAfter = window.getComputedStyle(modalCheckbox, ':after');
 const modalInputDiscount = document.querySelector('.form__input_sale');
 
 const modalSubmit = document.querySelector('.btn__submit');
@@ -153,18 +150,35 @@ const renderGoods = (obj) => {
         obj = arr[i];
 
         tableBody.append(createRow(obj));
-        console.log(obj);
     }
+    // arr.push(obj);
+    console.log('arr: ', arr);
+};
+
+
+const addCrmTotalSum = () => {
+    const crmSum = document.querySelector('.srm__span_sum');
+
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i].count * arr[i].price;
+    }
+    console.log(sum);
+
+    crmSum.textContent = String(sum);
 };
 
 const deleteRow = () => {
     tableBody.addEventListener('click', e => {
         const target = e.target;
         if (target.closest('.corf')) {
+            const index = arr.findIndex(obj => obj.id = target);
+            arr.splice(index, 1);
+
             target.closest('.table__row').remove();
 
-            arr.splice(arr.indexOf(target), 1);
             console.log(arr);
+            addCrmTotalSum();
         }
     });
 };
@@ -218,6 +232,7 @@ form.addEventListener('change', () => {
     modalSum.textContent = countValue * priceValue;
 });
 
+
 const formControl = (modal, form, tableBody, closeModal) => {
     modal.addEventListener('submit', e => {
         e.preventDefault();
@@ -234,63 +249,19 @@ const formControl = (modal, form, tableBody, closeModal) => {
 
         addNewRowPage(newRow, tableBody);
         addNewRow(newRow);
+        addCrmTotalSum();
         form.reset();
         closeModal();
     });
 };
 
-const addCrmTotalSum = () => {
-    const crmSum = document.querySelector('.srm__span_sum');
-
-    const tableTotals = tableBody.querySelectorAll('.table__cell_total');
-    console.log('tableTotals: ', tableTotals);
-    const totalArray = [];
-
-
-    const updateResults = () => {
-        const totalSum = totalArray.reduce((acc, current) => acc + current, 0);
-        return totalSum;
-    };
-
-    for (let i = 0; i < tableTotals.length; i++) {
-        totalArray.push(Number(tableTotals[i].textContent));
+modalCheckbox.addEventListener('change', e => {
+    e.target.checked ? modalInputDiscount.disabled = false :
+    modalInputDiscount.disabled = true;
+    if (modalInputDiscount.disabled) {
+        modalInputDiscount.value = '';
     }
-
-    modalSubmit.addEventListener('click', () => {
-        addCrmTotalSum();
-        if (totalArray.length < arr.length) {
-            updateResults();
-        }
-        for (let i = 0; i < tableTotals.length; i++) {
-            totalArray.push(Number(tableTotals[i].textContent));
-        }
-    });
-
-    if (totalArray.length < arr.length) {
-        updateResults();
-    }
-
-    console.log('totalArray: ', totalArray);
-
-    crmSum.textContent = updateResults();
-};
-
-const blockCheckbox = () => {
-    const listener = e => {
-        const target = e.target;
-        if (!target.closest('.checkbox__input')) {
-            modalInputDiscount.setAttribute('disabled', 'true');
-            modalInputDiscount.value = '';
-        } else {
-            modalInputDiscount.removeAttribute('disabled');
-            modalInputDiscount.addEventListener('focusin', () => {
-                modal.removeEventListener('click', listener);
-            });
-        }
-    };
-
-    modal.addEventListener('click', listener);
-};
+});
 
 const init = () => {
     renderGoods(arr);
@@ -298,7 +269,6 @@ const init = () => {
     deleteRow();
     formControl(modal, form, tableBody, closeModal);
     addCrmTotalSum(arr);
-    blockCheckbox();
 };
 init();
 
