@@ -12,8 +12,13 @@
 
     <title>SRM Table</title>
 
-    <!-- <script defer src="js/script.js"></script> -->
-    <script defer src="js/rows.js"></script>
+    <script type="module" src="js/rows.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            tableInit();
+        });
+    </script>
 </head>
 <body>
     <div class="modal">
