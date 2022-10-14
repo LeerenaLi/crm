@@ -8,6 +8,7 @@ const {
     deleteRow,
     modalControll,
     formControl,
+    openImage,
 } = control;
 
 const {
@@ -23,6 +24,7 @@ const {
         deleteRow();
         formControl(modal, form, tableBody, closeModal);
         addCrmTotalSum(arr);
+        openImage();
     };
 
     window.tableInit = init;
