@@ -11,6 +11,7 @@ const modalInputDiscount = document.querySelector('.form__input_sale');
 const crmSum = document.querySelector('.srm__span_sum');
 const spanId = document.querySelector('.vendor-code__id');
 const modalSum = document.querySelector('.form__span_sum');
+const formError = document.querySelector('.form__warning');
 
 export default {
     tableBody,
@@ -24,4 +25,5 @@ export default {
     crmSum,
     spanId,
     modalSum,
+    formError,
 };

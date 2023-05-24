@@ -1,8 +1,8 @@
-import {arr} from './data.js';
 import elements from './getElements.js';
 import {addCrmTotalSum} from './totalSum.js';
 import {createId} from './randomId.js';
 import {createRow} from './createRow.js';
+import { URL, fetchRequest, loadGoods } from './render.js';
 
 
 const {
@@ -14,25 +14,34 @@ const {
     modalCheckbox,
     modalInputDiscount,
     modalSum,
+    formError,
 } = elements;
 
-const addNewRow = (row) => {
-    arr.push(row);
-    console.log('arr: ', arr);
-};
+const deleteRow = async () => {
+    const data = await loadGoods(URL);
 
-const deleteRow = () => {
     tableBody.addEventListener('click', e => {
         const target = e.target;
         if (target.closest('.corf')) {
-            const index = arr.findIndex(obj => obj.id = target);
-            arr.splice(index, 1);
+            const row = target.closest('.table__row');
 
-            target.closest('.table__row').remove();
+            const rowID = row.querySelector('.table__cell_id').dataset.id;
 
-            console.log(arr);
-            addCrmTotalSum();
+            fetchRequest(`https://jumpy-global-capricorn.glitch.me/api/goods/${rowID}`, {
+                method: 'DELETE',
+                callback(err, data) {
+                    if (err) {
+                        console.warn(err, data);
+                        row.textContent = err;
+                    }
+                    addCrmTotalSum();
+                },
+            })
+            row.remove();
         }
+        //     // const index = data.findIndex((item) => item.id === target);
+        //     // arr.splice(index, 1);
+        //     // target.closest('.table__row').remove();
     });
 };
 
@@ -40,7 +49,7 @@ const modalControll = () => {
     const openModal = () => {
         modal.classList.add('active');
         overlayModal.classList.add('active');
-        createId();
+        // createId();
     };
 
     btnOpenModal.addEventListener('click', openModal);
@@ -64,8 +73,8 @@ const addNewRowPage = (newRow, tableBody) => {
     tableBody.append(createRow(newRow));
 };
 
-const formControl = (modal, form, tableBody, closeModal) => {
-    const {title, category, units, count, price} = form;
+const formControl = async (modal, form, tableBody, closeModal) => {
+    const {title, category, spec, units, count, price} = form;
 
     form.addEventListener('change', () => {
         const countValue = form.count.value;
@@ -85,21 +94,45 @@ const formControl = (modal, form, tableBody, closeModal) => {
     modal.addEventListener('submit', e => {
         e.preventDefault();
 
-        const newRow = {
-            id: createId(),
-            title: title.value,
-            category: category.value,
-            units: units.value,
-            count: count.value,
-            price: price.value,
-        };
-        console.log('newRow: ', newRow);
+        fetchRequest(URL, {
+            method: 'POST',
+            body: {
+                title: title.value,
+                description: spec.value,
+                category: category.value,
+                units: units.value,
+                count: count.value,
+                price: price.value,
+            },
+            callback(err, data) {
+                if (err) {
+                    console.warn(err);
+                    formError.style.display = 'block';
+                    formError.textContent = err;
+                    return;
+                }
+                
+                formError.style.display = 'block';
+                formError.textContent = `Товар добавлен, номер товара: ${data.id}`;
+                setTimeout(closeModal, 3000);
+                form.reset();
 
-        addNewRowPage(newRow, tableBody);
-        addNewRow(newRow);
-        addCrmTotalSum();
-        form.reset();
-        closeModal();
+                const newRow = {
+                    id: data.id,
+                    title: data.title,
+                    category: data.category,
+                    units: data.units,
+                    count: data.count,
+                    price: data.price,
+                };
+
+                addNewRowPage(newRow, tableBody);
+                addCrmTotalSum();
+            },
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
     });
 };
 
@@ -120,7 +153,6 @@ const openImage = () => {
 };
 
 export default {
-    addNewRow,
     deleteRow,
     modalControll,
     addNewRowPage,

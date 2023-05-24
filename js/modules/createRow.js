@@ -98,7 +98,8 @@ export const createRow = ({id, title, category, units, count, price}) => {
             'https://www.colcorsa.com/wp-content/uploads/2019/09/Ferrari-F8-Spider-Hire-Rent-Europe.jpg');
 
     const tdId = document.createElement('td');
-    tdId.classList.add('table__cell');
+    tdId.classList.add('table__cell', 'table__cell_id');
+    tdId.setAttribute('data-id', `${id}`);
     tdId.textContent = String(id);
 
     const tdTitle = document.createElement('td');

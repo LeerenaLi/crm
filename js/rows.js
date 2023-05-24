@@ -19,7 +19,7 @@ const {
 
 {
     const init = () => {
-        renderGoods(arr);
+        renderGoods();
         const {closeModal} = modalControll();
         deleteRow();
         formControl(modal, form, tableBody, closeModal);
