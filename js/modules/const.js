@@ -1,3 +1,5 @@
+const URL = 'https://jumpy-global-capricorn.glitch.me/api/goods';
+
 const tableBody = document.querySelector('.table__body');
 const modal = document.querySelector('.modal');
 const btnOpenModal = document.querySelector('.btn__submit_srm');
@@ -14,6 +16,7 @@ const modalSum = document.querySelector('.form__span_sum');
 const formError = document.querySelector('.form__warning');
 
 export default {
+    URL,
     tableBody,
     modal,
     btnOpenModal,

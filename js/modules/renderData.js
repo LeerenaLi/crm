@@ -1,12 +1,5 @@
-import {arr} from './data.js';
-import elements from './getElements.js';
-import {createRow} from './createRow.js';
 
-const {
-    tableBody,
-} = elements;
 
-export const URL = 'https://jumpy-global-capricorn.glitch.me/api/goods';
 
 export const fetchRequest = async (url, {
     method = 'GET',
@@ -45,20 +38,3 @@ export const fetchRequest = async (url, {
 };
 
 
-export const loadGoods = async () => {
-    const response = await fetch(URL);
-    const data = await response.json();
-
-    return data;
-}
-
-
-export const renderGoods = async () => {
-    const data = await loadGoods(URL);
-
-    if (data) {
-        data.map(item => {
-            tableBody.append(createRow(item));
-        })
-    }
-}

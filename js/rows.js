@@ -1,15 +1,15 @@
-import {arr} from './modules/data.js';
-import {renderGoods} from './modules/render.js';
-import control from './modules/control.js';
-import {addCrmTotalSum} from './modules/totalSum.js';
-import elements from './modules/getElements.js';
+import { addCrmTotalSum } from './modules/totalSum.js';
+import elements from './modules/const.js';
+import modalFormControl from './modules/modalFormControl.js';
+import { renderGoods } from './modules/renderGoods.js';
+import { createModal } from './modules/createModal.js';
 
 const {
     deleteRow,
     modalControll,
     formControl,
     openImage,
-} = control;
+} = modalFormControl;
 
 const {
     tableBody,
@@ -20,10 +20,11 @@ const {
 {
     const init = () => {
         renderGoods();
-        const {closeModal} = modalControll();
+        // createModal();
+        // modalControll();
         deleteRow();
-        formControl(modal, form, tableBody, closeModal);
-        addCrmTotalSum(arr);
+        // formControl(modal, form, tableBody);
+        addCrmTotalSum();
         openImage();
     };
 

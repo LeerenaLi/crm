@@ -1,7 +1,8 @@
-import elements from './getElements.js';
-import { URL, loadGoods } from './render.js';
+import elements from './const.js';
+import { loadGoods } from './renderGoods.js';
 
 const {
+    URL,
     crmSum,
 } = elements;
 
