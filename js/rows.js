@@ -1,8 +1,7 @@
 import { addCrmTotalSum } from './modules/totalSum.js';
 import elements from './modules/const.js';
-import modalFormControl from './modules/modalFormControl.js';
+import modalFormControl from './modules/rowsControl.js';
 import { renderGoods } from './modules/renderGoods.js';
-import { createModal } from './modules/createModal.js';
 
 const {
     deleteRow,
@@ -20,7 +19,6 @@ const {
 {
     const init = () => {
         renderGoods();
-        // createModal();
         // modalControll();
         deleteRow();
         // formControl(modal, form, tableBody);

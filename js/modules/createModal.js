@@ -1,7 +1,7 @@
 import { loadStyle } from "./loadStyle.js";
 import { fetchRequest } from "./renderData.js";
 import elements from './const.js';
-import { addNewRowPage } from "./modalFormControl.js";
+import { addNewRowPage } from "./rowsControl.js";
 import { addCrmTotalSum } from "./totalSum.js";
 
 const {
@@ -31,8 +31,8 @@ export const createForm = () => {
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_sale">
                     <label for="sale" class="form__label checkbox">Дисконт</label>
-                    <input type="checkbox" class="checkbox__input" id="sale">
-                    <input type="number" class="form__input form__input_sale" id="sale-in" min="1" max="15">
+                    <input type="checkbox" class="checkbox__input" id="sale" name="sale">
+                    <input type="number" class="form__input form__input_sale" id="sale-in" name="discount" min="1" max="15">
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_spec">
                     <label for="spec" class="form__label">Описание</label>
@@ -79,14 +79,8 @@ export const createForm = () => {
     return form;
 }
 
-// const addModal = () => {
-    
-// }
 
 export const createModal = async (data) => {
-    await loadStyle('css/blocks/modal.css');
-    await loadStyle('css/blocks/form.css');
-
     const modal = document.createElement('div');
     modal.classList.add('modal');
     const modalWrapper = document.createElement('div');
@@ -153,69 +147,109 @@ export const createModal = async (data) => {
     modal.append(modalWrapper);
     document.body.append(modal);
 
-    const {title, category, spec, units, count, price} = form;
-    const modalSum = document.querySelector('.form__span_sum');
-    const formError = document.querySelector('.form__warning');
-    
-    form.addEventListener('change', () => {
-        const countValue = form.count.value;
-        const priceValue = form.price.value;
-
-        modalSum.textContent = countValue * priceValue;
-    });
-
-    modal.addEventListener('submit', e => {
-        e.preventDefault();
-
-        fetchRequest(URL, {
-            method: 'POST',
-            body: {
-                title: title.value,
-                description: spec.value,
-                category: category.value,
-                units: units.value,
-                count: count.value,
-                price: price.value,
-            },
-            callback(err, data) {
-                if (err) {
-                    console.warn(err);
-                    formError.style.display = 'block';
-                    formError.textContent = err;
-                    return;
-                }
-                
-                formError.style.display = 'block';
-                formError.textContent = `Товар добавлен, номер товара: ${data.id}`;
-                setTimeout(() => modal.remove(), 3000);
-                form.reset();
-
-                const newRow = {
-                    id: data.id,
-                    title: data.title,
-                    category: data.category,
-                    units: data.units,
-                    count: data.count,
-                    price: data.price,
-                };
-
-                addNewRowPage(newRow, tableBody);
-                addCrmTotalSum();
-            },
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-    });
-
-    return new Promise(resolve => {
-        btnCloseModal.addEventListener('click', () => {
-            modal.remove();
-        });
-        modal.addEventListener('click', ({target}) => {
-            if (target.classList.contains('modal')) {
-                modal.remove();
-            }
-        });
-    })
+    return {modal, btnCloseModal, vendorCodeID, form};
 }
+
+// export const showModal = async () => {
+//     await loadStyle('css/blocks/modal.css');
+//     await loadStyle('css/blocks/form.css');
+
+    
+//     const openPromise =  new Promise(resolve => {
+//         const modal = createModal();
+//         resolve(modal);
+//     })
+
+//     openPromise.then(value => {
+//         const modal = value.modal;
+//         const form = value.form;
+//         formControl(modal, form, tableBody);
+//     })
+
+//     return new Promise(resolve => {
+//         openPromise.then(value => {
+//             const modal = value.modal;
+//             const btnClose = value.btnCloseModal;
+//             modal.addEventListener('click', ({target}) => {
+//                 if (target.classList.contains('modal')) {
+//                     modal.remove();
+//                 }
+//             });
+//             btnClose.addEventListener('click', () => {
+//                 modal.remove();
+//             })
+//         })
+//     })
+// }
+
+
+// export const formControl = async (modal, form, tableBody) => {
+//     const {title, category, spec, units, count, price, sale, discount} = form;
+//     const formError = document.querySelector('.form__warning');
+//     const modalSum = document.querySelector('.form__span_sum');
+
+//     form.addEventListener('change', () => {
+//         const countValue = form.count.value;
+//         const priceValue = form.price.value;
+
+//         modalSum.textContent = countValue * priceValue;
+//     });
+    
+//     sale.addEventListener('change', e => {
+//         e.target.checked ? discount.disabled = false :
+//         discount.disabled = true;
+//         if (discount.disabled) {
+//             discount.value = '';
+//         }
+//     });
+
+//     const closeModal = () => {
+//         modal.remove();
+//     }
+
+//     modal.addEventListener('submit', e => {
+//         e.preventDefault();
+
+//         fetchRequest(URL, {
+//             method: 'POST',
+//             body: {
+//                 title: title.value,
+//                 description: spec.value,
+//                 category: category.value,
+//                 units: units.value,
+//                 count: count.value,
+//                 price: price.value,
+//             },
+//             callback(err, data) {
+//                 if (err) {
+//                     console.warn(err);
+//                     formError.style.display = 'block';
+//                     formError.textContent = err;
+//                     return;
+//                 }
+                
+//                 formError.style.display = 'block';
+//                 formError.textContent = `Товар добавлен, номер товара: ${data.id}`;
+//                 setTimeout(closeModal, 3000);
+//                 form.reset();
+
+//                 const newRow = {
+//                     id: data.id,
+//                     title: data.title,
+//                     category: data.category,
+//                     units: data.units,
+//                     count: data.count,
+//                     price: data.price,
+//                 };
+
+//                 addNewRowPage(newRow, tableBody);
+//                 addCrmTotalSum();
+//             },
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+//     });    
+// };
+
+

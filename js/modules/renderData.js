@@ -1,6 +1,4 @@
 
-
-
 export const fetchRequest = async (url, {
     method = 'GET',
     callback,
@@ -21,7 +19,7 @@ export const fetchRequest = async (url, {
 
         if (response.ok) {
             const data = await response.json();
-            if (callback) callback(null, data);
+            if (callback) return callback(null, data);
             return;
         }
 
@@ -33,7 +31,7 @@ export const fetchRequest = async (url, {
         }
         
     } catch (err) {
-        callback(err);
+        return callback(err);
     }
 };
 
