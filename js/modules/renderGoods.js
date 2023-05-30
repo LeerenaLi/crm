@@ -4,14 +4,14 @@ import { showModal } from './modalControl.js';
 import { fetchRequest } from './renderData.js';
 
 const {
-    URL,
+    URL_API,
     tableBody,
     btnOpenModal,
 } = elements;
 
 
 export const loadGoods = async () => {
-    const response = await fetch(URL);
+    const response = await fetch(URL_API);
     const data = await response.json();
 
     return data;
@@ -19,7 +19,7 @@ export const loadGoods = async () => {
 
 
 export const renderGoods = async () => {
-    const data = await loadGoods(URL);
+    const data = await loadGoods(URL_API);
 
     if (data) {
         data.map(item => {
@@ -34,7 +34,7 @@ export const renderGoods = async () => {
             const row = target.closest('.table__row');
             const rowID = row.querySelector('.table__cell_id').dataset.id;
             const modal = showModal();
-            const editData = await fetchRequest(`${URL}/${rowID}`, {
+            const editData = await fetchRequest(`${URL_API}/${rowID}`, {
                 method: 'GET',
                 // callback: showModal,
                 callback(err, data) {

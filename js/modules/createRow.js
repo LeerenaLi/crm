@@ -91,11 +91,11 @@ export const createBtnsTd = () => {
     return btnsTd;
 };
 
-export const createRow = ({id, title, category, units, count, price}) => {
+export const createRow = ({id, title, category, units, count, price, image}) => {
     const newTR = document.createElement('tr');
     newTR.classList.add('table__row');
     newTR.setAttribute('data-pic',
-            'https://www.colcorsa.com/wp-content/uploads/2019/09/Ferrari-F8-Spider-Hire-Rent-Europe.jpg');
+    'https://www.colcorsa.com/wp-content/uploads/2019/09/Ferrari-F8-Spider-Hire-Rent-Europe.jpg');
 
     const tdId = document.createElement('td');
     tdId.classList.add('table__cell', 'table__cell_id');
@@ -133,5 +133,7 @@ export const createRow = ({id, title, category, units, count, price}) => {
 
     return newTR;
 };
+
+// 'https://www.colcorsa.com/wp-content/uploads/2019/09/Ferrari-F8-Spider-Hire-Rent-Europe.jpg' `${image}`
 
 

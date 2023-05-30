@@ -5,14 +5,14 @@ import { fetchRequest } from './renderData.js';
 import { loadGoods } from './renderGoods.js';
 
 const {
-    URL,
+    URL_API,
     tableBody,
 } = elements;
 
 
 
 export const deleteRow = async () => {
-    const data = await loadGoods(URL);
+    const data = await loadGoods(URL_API);
 
     tableBody.addEventListener('click', e => {
         const target = e.target;
@@ -45,6 +45,21 @@ const openImage = () => {
     tableBody.addEventListener('click', e => {
         const target = e.target;
         if (target.closest('.download-img')) {
+            // const row = target.closest('.table__row');
+
+            // const rowID = row.querySelector('.table__cell_id').dataset.id;
+            // fetchRequest(`https://jumpy-global-capricorn.glitch.me/api/goods/${rowID}`, {
+            //     method: 'GET',
+            //     callback(err, data) {
+            //         if (err) {
+            //             console.warn(err, data);
+            //             row.textContent = err;
+            //         }
+            //         console.log('imgData', data);
+            //     },
+            // })
+
+
             const dataImg = target.closest('tr').getAttribute('data-pic');
 
             const left = screen.width / 2 - 600 / 2;

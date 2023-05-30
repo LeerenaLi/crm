@@ -6,7 +6,7 @@ import { fetchRequest } from "./renderData.js";
 import { addCrmTotalSum } from "./totalSum.js";
 
 const {
-    URL,
+    URL_API,
     tableBody,
 } = elements;
 
@@ -42,11 +42,49 @@ export const showModal = async () => {
     })
 }
 
+const tobase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.addEventListener('loadend', () => {
+        resolve(reader.result);
+    });
+
+    reader.addEventListener('error', err => {
+        reject(err);
+    });
+
+    reader.readAsDataURL(file);
+});
+
 
 export const formControl = async (modal, form, tableBody) => {
     const {title, category, spec, units, count, price, sale, discount} = form;
+    const file = document.querySelector('.image-input');
+    const imageWrapper = document.querySelector('.form__images');
+    const preview = document.querySelector('.preview');
+    const imgDelete = document.querySelector('.form__basket');
     const formError = document.querySelector('.form__warning');
     const modalSum = document.querySelector('.form__span_sum');
+
+    file.addEventListener('change', () => {
+        if (file.files.length > 0) {
+            const src = URL.createObjectURL(file.files[0]);
+            console.log('file.files[0]: ', file.files[0]);
+    
+            if (file.files[0].size < 1048576) {
+                imageWrapper.style.display = 'block';
+                preview.src = src;
+            } else {
+                formError.style.display = 'block';
+            }
+
+            imgDelete.addEventListener('click', () => {
+                preview.src = '';
+                imageWrapper.style.display = 'none';
+            })
+            
+        }
+    });
 
     form.addEventListener('change', () => {
         const countValue = form.count.value;
@@ -67,10 +105,15 @@ export const formControl = async (modal, form, tableBody) => {
         modal.remove();
     }
 
-    modal.addEventListener('submit', e => {
+    modal.addEventListener('submit', async e => {
         e.preventDefault();
 
-        fetchRequest(URL, {
+        const formdata = new FormData(form);
+        const dataNew = Object.fromEntries(formdata);
+        console.log('dataNew: ', dataNew);
+        dataNew.image = await tobase64(dataNew.image);
+
+        fetchRequest(URL_API, {
             method: 'POST',
             body: {
                 title: title.value,
@@ -79,6 +122,7 @@ export const formControl = async (modal, form, tableBody) => {
                 units: units.value,
                 count: count.value,
                 price: price.value,
+                image: dataNew.image,
             },
             callback(err, data) {
                 if (err) {
