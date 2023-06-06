@@ -56,15 +56,30 @@ const tobase64 = file => new Promise((resolve, reject) => {
     reader.readAsDataURL(file);
 });
 
+const formInputsControl = () => {
+
+}
+
 
 export const formControl = async (modal, form, tableBody) => {
     const {title, category, spec, units, count, price, sale, discount} = form;
+    console.log('title: ', title);
     const file = document.querySelector('.image-input');
     const imageWrapper = document.querySelector('.form__images');
     const preview = document.querySelector('.preview');
     const imgDelete = document.querySelector('.form__basket');
     const formError = document.querySelector('.form__warning');
     const modalSum = document.querySelector('.form__span_sum');
+
+    form.addEventListener('input', () => {
+        title.value = title.value.replace(/[^а-яё\s]/ig, '');
+        category.value = category.value.replace(/[^а-яё\s]/ig, '');
+        spec.value = spec.value.replace(/[^а-яё\s]/ig, '');
+        units.value = units.value.replace(/[^а-яё]/ig, '');
+        count.value = count.value.replace(/\D/g, '');
+        price.value = price.value.replace(/\D/g, '');
+        sale.value = sale.value.replace(/\D/g, '');
+    })
 
     file.addEventListener('change', () => {
         if (file.files.length > 0) {

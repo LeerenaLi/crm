@@ -26,7 +26,7 @@ export const createForm = () => {
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_spec">
                     <label for="spec" class="form__label">Описание</label>
-                    <textarea class="form__input form__input_spec" id="spec" name="spec"></textarea>
+                    <textarea class="form__input form__input_spec" id="spec" name="spec" minlength="80"></textarea>
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_number">
                     <label for="number" class="form__label">количество</label>
