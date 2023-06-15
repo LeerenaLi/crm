@@ -86,6 +86,7 @@ export const formControl = async (modal, form, tableBody) => {
     const categoryWrapper = document.querySelector('.category-wrapper');
     const dataList = document.querySelector('.category-list');
     const categoryBtn = document.querySelector('.form__input_category-btn');
+    const modalWrapper = document.querySelector('.modal__wrapper');
 
     const closeModal = () => {
         modal.remove();
@@ -123,18 +124,27 @@ export const formControl = async (modal, form, tableBody) => {
                         option.value = item;
                         option.textContent = item;
                         dataList.append(option);
-                    })
+                        
+                    });
 
                     categoryBtn.addEventListener('click', () => {
                         categoryWrapper.classList.toggle('category-wrapper_active');
-                    })
+                    });
 
                     dataList.addEventListener('click', ({target}) => {
-                        console.log('target: ', target);
                         if (target.closest('.category-list__option')) {
                             const value = target.value;
                             inputCategory.value = value;
                             categoryWrapper.classList.remove('category-wrapper_active');
+                        } 
+                    });
+
+                    modalWrapper.addEventListener('click', ({target}) => {
+                        if (!target.closest('.category-list__option')) {
+                            categoryWrapper.classList.remove('category-wrapper_active');
+                        }
+                        if (target.closest('.form__input_category')) {
+                            categoryWrapper.classList.add('category-wrapper_active');
                         }
                     })
                 }
