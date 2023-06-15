@@ -56,20 +56,40 @@ const tobase64 = file => new Promise((resolve, reject) => {
     reader.readAsDataURL(file);
 });
 
-const formInputsControl = () => {
 
+
+const renderNewRow = (data) => {
+    const newRow = {
+        id: data.id,
+        title: data.title,
+        category: data.category,
+        units: data.units,
+        count: data.count,
+        price: data.price,
+    };
+
+    addNewRowPage(newRow, tableBody);
+    addCrmTotalSum();
 }
 
 
 export const formControl = async (modal, form, tableBody) => {
     const {title, category, spec, units, count, price, sale, discount} = form;
-    console.log('title: ', title);
     const file = document.querySelector('.image-input');
     const imageWrapper = document.querySelector('.form__images');
     const preview = document.querySelector('.preview');
     const imgDelete = document.querySelector('.form__basket');
     const formError = document.querySelector('.form__warning');
     const modalSum = document.querySelector('.form__span_sum');
+    const btnReset = document.querySelector('.btn__reset');
+    const inputCategory = document.querySelector('.form__input_category');
+    const categoryWrapper = document.querySelector('.category-wrapper');
+    const dataList = document.querySelector('.category-list');
+    const categoryBtn = document.querySelector('.form__input_category-btn');
+
+    const closeModal = () => {
+        modal.remove();
+    }
 
     form.addEventListener('input', () => {
         title.value = title.value.replace(/[^а-яё\s]/ig, '');
@@ -78,13 +98,53 @@ export const formControl = async (modal, form, tableBody) => {
         units.value = units.value.replace(/[^а-яё]/ig, '');
         count.value = count.value.replace(/\D/g, '');
         price.value = price.value.replace(/\D/g, '');
-        sale.value = sale.value.replace(/\D/g, '');
+        discount.value = discount.value.replace(/\D/g, '');
     })
+
+    inputCategory.addEventListener('click', () => {
+        categoryWrapper.classList.add('category-wrapper_active');
+
+        fetchRequest(`https://jumpy-global-capricorn.glitch.me/api/category`, {
+            method: 'GET',
+            callback(err, data) {
+                if (err) {
+                    console.warn(err, data);
+                    const clearInput = () => {
+                        inputCategory.value = '';
+                    }
+                    inputCategory.value = 'Ошибка, попробуйте позже...';
+                    setTimeout(clearInput, 3000);
+                }
+                if (data) {
+                    dataList.textContent = '';
+                    data.map(item => {
+                        const option = document.createElement('option');
+                        option.classList.add('category-list__option');
+                        option.value = item;
+                        option.textContent = item;
+                        dataList.append(option);
+                    })
+
+                    categoryBtn.addEventListener('click', () => {
+                        categoryWrapper.classList.toggle('category-wrapper_active');
+                    })
+
+                    dataList.addEventListener('click', ({target}) => {
+                        console.log('target: ', target);
+                        if (target.closest('.category-list__option')) {
+                            const value = target.value;
+                            inputCategory.value = value;
+                            categoryWrapper.classList.remove('category-wrapper_active');
+                        }
+                    })
+                }
+            },
+        });
+    });
 
     file.addEventListener('change', () => {
         if (file.files.length > 0) {
             const src = URL.createObjectURL(file.files[0]);
-            console.log('file.files[0]: ', file.files[0]);
     
             if (file.files[0].size < 1048576) {
                 imageWrapper.style.display = 'block';
@@ -116,57 +176,94 @@ export const formControl = async (modal, form, tableBody) => {
         }
     });
 
-    const closeModal = () => {
-        modal.remove();
+    btnReset.addEventListener('click', () => {
+        form.reset();
+    })
+
+    const formEndShow = (data, variable) => {
+        formError.style.display = 'block';
+        formError.textContent = `Товар ${variable}, номер товара: ${data.id}`;
+        setTimeout(closeModal, 3000);
+        form.reset();
     }
 
     modal.addEventListener('submit', async e => {
         e.preventDefault();
 
+        const productID = document.querySelector('.vendor-code__id').textContent;
+        
         const formdata = new FormData(form);
         const dataNew = Object.fromEntries(formdata);
-        console.log('dataNew: ', dataNew);
         dataNew.image = await tobase64(dataNew.image);
 
-        fetchRequest(URL_API, {
-            method: 'POST',
-            body: {
-                title: title.value,
-                description: spec.value,
-                category: category.value,
-                units: units.value,
-                count: count.value,
-                price: price.value,
-                image: dataNew.image,
-            },
-            callback(err, data) {
-                if (err) {
-                    console.warn(err);
-                    formError.style.display = 'block';
-                    formError.textContent = err;
-                    return;
-                }
+
+        if (productID === '') {
+            fetchRequest(URL_API, {
+                method: 'POST',
+                body: {
+                    title: title.value,
+                    description: spec.value,
+                    category: category.value,
+                    units: units.value,
+                    count: count.value,
+                    price: price.value,
+                    discount: discount.value,
+                    image: dataNew.image,
+                },
+                callback(err, data) {
+                    if (err) {
+                        console.warn(err);
+                        if (err === 'default') {
+                            const elError = document.querySelector('.modal__error');
+                            elError.style.display = 'block';
+                        }
+                        formError.style.display = 'block';
+                        formError.textContent = err;
+                        return;
+                    }
                 
-                formError.style.display = 'block';
-                formError.textContent = `Товар добавлен, номер товара: ${data.id}`;
-                setTimeout(closeModal, 3000);
-                form.reset();
+                    formEndShow(data, 'добавлен');
+                    renderNewRow(data);
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+        } else {
+            fetchRequest(`${URL_API}/${productID}`, {
+                method: 'PATCH',
+                body: {
+                    title: title.value,
+                    description: spec.value,
+                    category: category.value,
+                    units: units.value,
+                    count: count.value,
+                    price: price.value,
+                    discount: discount.value,
+                    image: dataNew.image,
+                },
+                callback(err, data) {
+                    if (err) {
+                        console.warn(err);
+                        if (err === 'default') {
+                            const elError = document.querySelector('.modal__error');
+                            elError.style.display = 'block';
+                        }
+                        formError.style.display = 'block';
+                        formError.textContent = err;
+                        return;
+                    }
 
-                const newRow = {
-                    id: data.id,
-                    title: data.title,
-                    category: data.category,
-                    units: data.units,
-                    count: data.count,
-                    price: data.price,
-                };
-
-                addNewRowPage(newRow, tableBody);
-                addCrmTotalSum();
-            },
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+                    const row = document.querySelector(`[data-id="${productID}"]`).closest('.table__row');
+                    row.remove();
+                    formEndShow(data, 'изменен');
+                    renderNewRow(data);
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                }, 
+            })
+        }
     });    
 };

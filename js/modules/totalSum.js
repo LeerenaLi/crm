@@ -12,7 +12,6 @@ export const addCrmTotalSum = async () => {
     for (let i = 0; i < data.length; i++) {
         sum += data[i].count * data[i].price;
     }
-    // console.log('totalsum:', sum);
 
     crmSum.textContent = String(sum);
 };

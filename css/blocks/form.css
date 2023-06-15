@@ -33,6 +33,23 @@
 .form__wrapper_category {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
+    position: relative;
+}
+
+.form__input_category:focus {
+    outline: 1px solid black;
+}
+
+.form__input_category-btn {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: none;
+    top: 30px;
+    right: 5px;
+    background: url('../../icons/drop_down.svg') no-repeat center;
 }
 
 .form__wrapper_units {

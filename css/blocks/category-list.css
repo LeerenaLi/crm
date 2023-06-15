@@ -1,0 +1,25 @@
+.category-wrapper {
+    display: none;
+}
+
+.category-list {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    max-height: 120px;
+    background-color: rgb(48, 47, 47);
+    color: white;
+    border-radius: 6px;
+    padding: 20px 15px;
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.category-wrapper_active {
+    display: block;
+}
+.category-list__option {
+    cursor: pointer;
+}

@@ -27,7 +27,8 @@ export const fetchRequest = async (url, {
             if (response.status > 400) {
                 throw new Error(`Ошибка: ${response.status}: ${response.statusText}`);
             } 
-            throw new Error(`${response.status} Что-то пошло не так...`);
+            // throw new Error(`${response.status} Что-то пошло не так...`);
+            throw new Error('default');
         }
         
     } catch (err) {

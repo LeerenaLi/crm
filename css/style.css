@@ -2,8 +2,7 @@
 @import "normalize.css";
 @import "variables.css";
 
-/* @import "blocks/modal.css"; */
 @import "blocks/buttons.css";
-/* @import "blocks/form.css"; */
 @import "blocks/srm.css";
 @import "blocks/table.css";
+@import "blocks/category-list.css";

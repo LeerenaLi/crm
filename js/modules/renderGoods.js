@@ -30,6 +30,7 @@ export const renderGoods = async () => {
     btnOpenModal.addEventListener('click', showModal);
 
     tableBody.addEventListener('click', async ({target}) => {
+        
         if (target.closest('.edit-table')) {
             const row = target.closest('.table__row');
             const rowID = row.querySelector('.table__cell_id').dataset.id;
@@ -43,9 +44,10 @@ export const renderGoods = async () => {
                         row.textContent = err;
                     }
                     if (data) {
-                        console.log('data: ', data);
                         const productID = document.querySelector('.vendor-code__id');
+                        const modalTitle = document.querySelector('.modal__title');
                         productID.textContent = `${rowID}`;
+                        modalTitle.textContent = 'Изменить товар';
 
                         const title = document.querySelector('#name');
                         const category = document.querySelector('#category');
@@ -69,8 +71,10 @@ export const renderGoods = async () => {
             });
     
         }
-    })
-}
+    });
+};
+
+
 
 
 

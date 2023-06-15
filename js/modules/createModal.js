@@ -13,7 +13,13 @@ export const createForm = () => {
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_category">
                     <label for="category" class="form__label">Категория</label>
-                    <input type="text" class="form__input" id="category" name="category" required>
+                    <input type="text" class="form__input form__input_category" id="category" name="category" required>
+                    <button class="form__input_category-btn"></button>
+                    <div class="category-wrapper">
+                        <datalist class ="category-list" id="category-list">
+                            
+                        </datalist>
+                    </div>
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_units">
                     <label for="units" class="form__label">Единицы измерения</label>
@@ -26,7 +32,7 @@ export const createForm = () => {
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_spec">
                     <label for="spec" class="form__label">Описание</label>
-                    <textarea class="form__input form__input_spec" id="spec" name="spec" minlength="80"></textarea>
+                    <textarea class="form__input form__input_spec" id="spec" name="spec" minlength="20"></textarea>
                 </fieldset>
                 <fieldset class="form__wrapper form__wrapper_number">
                     <label for="number" class="form__label">количество</label>
